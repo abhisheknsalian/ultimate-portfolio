@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
+import Container from "./container";
+
 interface SectionProps {
   id?: string;
   children: ReactNode;
@@ -15,9 +17,14 @@ export default function Section({
   return (
     <section
       id={id}
-      className={cn("py-24 md:py-32", className)}
+      className={cn(
+        "scroll-mt-24 py-24 md:py-32",
+        className
+      )}
     >
-      {children}
+      <Container>
+        {children}
+      </Container>
     </section>
   );
 }

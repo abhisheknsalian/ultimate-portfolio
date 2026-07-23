@@ -5,16 +5,12 @@ export default function AboutContent() {
   return (
     <div className="max-w-3xl">
         <SectionHeading
-            eyebrow="About"
-            title="About Me"
-            description="Passionate about building intelligent AI systems, scalable data pipelines, and production-ready machine learning solutions."
+            title="About"
+            description="Building intelligent AI systems, scalable data platforms, and production-ready machine learning solutions."
         />
 
       <Lead className="mt-6">
-        I&apos;m Abhishek Nagesh Salian, currently pursuing an M.Sc. in Data
-        Science in Germany. I enjoy building intelligent systems that combine
-        machine learning, data engineering, and cloud technologies to solve
-        real-world problems.
+        I&apos;m Abhishek Nagesh Salian, currently pursuing an M.Sc. in Data Science at the University of Europe for Applied Sciences in Berlin,Germany.
       </Lead>
 
       <p className="mt-6 text-lg leading-8 text-muted-foreground">
