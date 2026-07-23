@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-interface HeadingProps {
+interface TypographyProps {
   children: ReactNode;
   className?: string;
 }
@@ -9,11 +9,11 @@ interface HeadingProps {
 export function DisplayHeading({
   children,
   className,
-}: HeadingProps) {
+}: TypographyProps) {
   return (
     <h1
       className={cn(
-        "text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl",
+        "text-6xl font-black tracking-tight md:text-7xl xl:text-8xl",
         className
       )}
     >
@@ -25,11 +25,11 @@ export function DisplayHeading({
 export function Lead({
   children,
   className,
-}: HeadingProps) {
+}: TypographyProps) {
   return (
     <p
       className={cn(
-        "max-w-2xl text-lg leading-8 text-muted-foreground",
+        "max-w-2xl text-xl leading-8 text-muted-foreground",
         className
       )}
     >

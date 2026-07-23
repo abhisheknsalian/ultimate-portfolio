@@ -7,15 +7,15 @@ export default function HeroButtons() {
   return (
     <div className="mt-10 flex flex-wrap gap-4">
       <Link href="#projects">
-        <Button size="lg">
+        <Button size="lg" className="px-6">
           Explore My Work
-          <ArrowRight className="ml-2 h-4 w-4" />
+          <ArrowRight className="ml-2 h-6 w-6" />
         </Button>
       </Link>
 
       <Link href="/resume/resume.pdf">
-        <Button variant="outline" size="lg">
-          <Download className="mr-2 h-4 w-4" />
+        <Button variant="outline" size="lg" className="px-6">
+          <Download className="mr-2 h-6 w-6" />
           Resume
         </Button>
       </Link>

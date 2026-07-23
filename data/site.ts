@@ -1,20 +1,26 @@
 export const siteConfig = {
   name: "Abhishek Nagesh Salian",
 
+  firstName: "Abhishek",
+
+  lastName: "Nagesh Salian",
+
   shortName: "ANS",
 
   role: "Machine Learning Engineer",
 
-  tagline:
-    "Building Intelligent Systems with AI, Machine Learning & Data Engineering.",
+  headline:
+  "Building Intelligent Systems with AI, Machine Learning & Data Engineering.",
+
+  availability: "Available for Working Student Opportunities",
 
   location: "Berlin, Germany",
 
-  email: "",
+  email: "abhisheknsalian@gmail.com",
 
-  github: "",
+  github: "abhisheknsalian",
 
-  linkedin: "",
+  linkedin: "abhishek-salian-13b3091a5",
 
   resume: "/resume/resume.pdf",
 };
