@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ultimate-portfolio-zeta.vercel.app"), 
+  metadataBase: new URL("https://abhisheknageshsalian.vercel.app"), 
 
   title: {
     default: "Abhishek Nagesh Salian | Machine Learning Engineer",
