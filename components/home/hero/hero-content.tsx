@@ -6,38 +6,53 @@ import { siteConfig } from "@/data/site";
 
 import HeroButtons from "./hero-buttons";
 import HeroSocials from "./hero-socials";
+import FadeUp from "@/components/animations/fade-up";
 
 export default function HeroContent() {
   return (
     <div className="max-w-3xl space-y-3">
-      <Badge className="gap-2">
-        <Sparkles className="h-4 w-4 text-blue-500" />
-        <span>{siteConfig.availability}</span>
-      </Badge>
+      <FadeUp>
+        <Badge className="gap-2">
+          <Sparkles className="h-4 w-4 text-blue-500" />
+          <span>{siteConfig.availability}</span>
+        </Badge>
+      </FadeUp>
 
+      <FadeUp delay={0.1}>
         <p className="mt-10 text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            HELLO,
+          HELLO,
         </p>
+      </FadeUp>
 
-      <DisplayHeading className="mt-2">
-        <>
-          {siteConfig.firstName}
-          <br />
-          {siteConfig.lastName}
-        </>
-      </DisplayHeading>
+      <FadeUp delay={0.2}>
+        <DisplayHeading className="mt-2">
+          <>
+            {siteConfig.firstName}
+            <br />
+            {siteConfig.lastName}
+          </>
+        </DisplayHeading>
+      </FadeUp>
 
-      <p className="mt-6 text-2xl font-semibold tracking-tight">
-        {siteConfig.role}
-      </p>
+      <FadeUp delay={0.3}>
+        <p className="mt-6 text-2xl font-semibold tracking-tight">
+          {siteConfig.role}
+        </p>
+      </FadeUp>
 
-      <Lead className="mt-8">
-        {siteConfig.headline}
-      </Lead>
+      <FadeUp delay={0.4}>
+        <Lead className="mt-8">
+          {siteConfig.headline}
+        </Lead>
+      </FadeUp>
 
-      <HeroButtons />
+      <FadeUp delay={0.5}>
+        <HeroButtons />
+      </FadeUp>
 
-      <HeroSocials />
+      <FadeUp delay={0.6}>
+        <HeroSocials />
+      </FadeUp>
     </div>
   );
 }
