@@ -21,6 +21,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://abhisheknageshsalian.vercel.app"), 
 
+  alternates: {
+  canonical: "https://abhisheknageshsalian.vercel.app",
+  },
+
   title: {
     default: "Abhishek Nagesh Salian | Machine Learning Engineer",
     template: "%s | Abhishek Nagesh Salian",
@@ -71,19 +75,30 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    title: "Abhishek Nagesh Salian | Machine Learning Engineer",
-    description:
-      "Machine Learning Engineer and Data Engineer building intelligent AI systems, scalable cloud data platforms, and production-ready machine learning solutions.",
-  },
+  type: "website",
+  locale: "en_US",
+  url: "https://abhisheknageshsalian.vercel.app",
+  siteName: "Abhishek Nagesh Salian",
+  title: "Abhishek Nagesh Salian | Machine Learning Engineer",
+  description:
+    "Machine Learning Engineer and Data Engineer building intelligent AI systems, scalable cloud data platforms, and production-ready machine learning solutions.",
+  images: [
+    {
+      url: "/og-image.png",
+      width: 1200,
+      height: 630,
+      alt: "Abhishek Nagesh Salian Portfolio",
+    },
+  ],
+},
 
-  twitter: {
-    card: "summary_large_image",
-    title: "Abhishek Nagesh Salian | Machine Learning Engineer",
-    description:
-      "Machine Learning Engineer and Data Engineer building intelligent AI systems.",
-  },
+twitter: {
+  card: "summary_large_image",
+  title: "Abhishek Nagesh Salian | Machine Learning Engineer",
+  description:
+    "Machine Learning Engineer and Data Engineer building intelligent AI systems.",
+  images: ["/og-image.png"],
+},
 };
 
 export default function RootLayout({
@@ -114,4 +129,5 @@ export default function RootLayout({
       </body>
     </html>
   );
+  
 }
