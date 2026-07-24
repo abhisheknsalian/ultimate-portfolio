@@ -10,7 +10,7 @@ export const siteConfig = {
   role: "Machine Learning Engineer",
 
   headline:
-  "Building Intelligent Systems with AI, Machine Learning & Data Engineering.",
+  "Building intelligent AI systems, scalable cloud data platforms, and production-ready machine learning solutions.",
 
   availability: "Available for Working Student Opportunities",
 

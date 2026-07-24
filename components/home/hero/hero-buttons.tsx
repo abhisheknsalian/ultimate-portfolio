@@ -8,7 +8,7 @@ export default function HeroButtons() {
     <div className="mt-10 flex flex-wrap gap-4">
       <Link href="#projects">
         <Button size="lg" className="px-6">
-          Explore My Work
+          Explore Projects →
           <ArrowRight className="ml-2 h-6 w-6" />
         </Button>
       </Link>
@@ -16,7 +16,7 @@ export default function HeroButtons() {
       <Link href="/resume/resume.pdf">
         <Button variant="outline" size="lg" className="px-6">
           <Download className="mr-2 h-6 w-6" />
-          Resume
+          Download Resume
         </Button>
       </Link>
     </div>

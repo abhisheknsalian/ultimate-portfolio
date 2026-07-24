@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+
 import Background from "@/components/layout/background";
+import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,23 +19,71 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://portfolio.vercel.app"),
+  metadataBase: new URL("https://portfolio.vercel.app"), // Replace with your Vercel URL after deployment
+
   title: {
-    default: "Abhishek Nagesh Salian",
+    default: "Abhishek Nagesh Salian | Machine Learning Engineer",
     template: "%s | Abhishek Nagesh Salian",
   },
+
   description:
-    "Machine Learning Engineer, Data Engineer and AI Systems Builder based in Germany.",
+    "Machine Learning Engineer and Data Engineer building intelligent AI systems, scalable cloud data platforms, and production-ready machine learning solutions.",
+
   keywords: [
-    "Machine Learning",
-    "Data Science",
-    "Data Engineering",
-    "AI",
+    "Abhishek Nagesh Salian",
+    "Machine Learning Engineer",
+    "Data Engineer",
+    "Data Scientist",
+    "Artificial Intelligence",
+    "Generative AI",
     "Python",
     "AWS",
+    "Terraform",
+    "Docker",
+    "Cloud",
     "Portfolio",
+    "Germany",
+    "Berlin",
   ],
-  authors: [{ name: "Abhishek Nagesh Salian" }],
+
+  authors: [
+    {
+      name: "Abhishek Nagesh Salian",
+    },
+  ],
+
+  creator: "Abhishek Nagesh Salian",
+
+  publisher: "Abhishek Nagesh Salian",
+
+  category: "Technology",
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+      "max-snippet": -1,
+    },
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    title: "Abhishek Nagesh Salian | Machine Learning Engineer",
+    description:
+      "Machine Learning Engineer and Data Engineer building intelligent AI systems, scalable cloud data platforms, and production-ready machine learning solutions.",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Abhishek Nagesh Salian | Machine Learning Engineer",
+    description:
+      "Machine Learning Engineer and Data Engineer building intelligent AI systems.",
+  },
 };
 
 export default function RootLayout({
@@ -55,7 +106,10 @@ export default function RootLayout({
         >
           <Background />
           <Navbar />
-          {children}
+
+          <main>{children}</main>
+
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
