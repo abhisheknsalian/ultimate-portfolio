@@ -6,7 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    // Replace with your real Vercel/custom domain after deployment
-    sitemap: "https://your-vercel-url.vercel.app/sitemap.xml",
+    sitemap: "https://ultimate-portfolio-zeta.vercel.app/sitemap.xml",
   };
 }
