@@ -12,10 +12,6 @@ export const navigation = [
     href: "#experience",
   },
   {
-    title: "Blog",
-    href: "#blog",
-  },
-  {
     title: "Contact",
     href: "#contact",
   },
