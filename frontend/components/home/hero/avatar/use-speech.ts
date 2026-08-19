@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 
 import { AvatarState } from "./avatar-state";
+import { useAudioPreference } from "./use-audio-preference";
 import { useAvatar } from "./use-avatar";
 
 let speechQueue: SpeechSynthesisUtterance[] = [];
@@ -197,6 +198,12 @@ export function useSpeech() {
       const trimmed = text.trim();
 
       if (!trimmed) return;
+
+      // Single gate for the whole pipeline: if the user has audio off,
+      // this is a no-op before voices are even loaded or a queue entry
+      // is created - not a special case for any particular message,
+      // just how speak() itself behaves while the preference is off.
+      if (!useAudioPreference.getState().enabled) return;
 
       ensureVoicesLoaded().then((voices) => {
         const utterance = new SpeechSynthesisUtterance(trimmed);
