@@ -22,7 +22,7 @@ export default function FeaturedProject({
 
   return (
     <FadeUp>
-      <article className="rounded-3xl border border-border bg-card/60 p-8 backdrop-blur-sm transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary/30 hover:shadow-2xl">
+      <article className="rounded-3xl border border-border bg-card/60 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-primary/30 hover:shadow-2xl">
         <Badge>{project.category[language]}</Badge>
 
         <CardTitle size="xl" className="mt-4">

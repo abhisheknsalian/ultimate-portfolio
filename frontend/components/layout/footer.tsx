@@ -9,6 +9,9 @@ import { siteConfig } from "@/data/site";
 
 import Container from "./container";
 
+const ICON_LINK_CLASS =
+  "rounded-xl border border-border p-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
+
 export default function Footer() {
   const { t } = useLanguage();
 
@@ -34,7 +37,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="rounded-xl border border-border p-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:text-primary"
+              className={ICON_LINK_CLASS}
             >
               <FaGithub className="h-5 w-5" />
             </Link>
@@ -44,7 +47,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="rounded-xl border border-border p-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:text-primary"
+              className={ICON_LINK_CLASS}
             >
               <FaLinkedin className="h-5 w-5" />
             </Link>
@@ -52,7 +55,7 @@ export default function Footer() {
             <Link
               href={`mailto:${siteConfig.email}`}
               aria-label="Email"
-              className="rounded-xl border border-border p-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:text-primary"
+              className={ICON_LINK_CLASS}
             >
               <Mail className="h-5 w-5" />
             </Link>
