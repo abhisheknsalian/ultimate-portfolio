@@ -27,7 +27,7 @@ export default function AssistantActions() {
           onClick={() =>
             sendMessage(action.prompt, language)
           }
-          className={`group rounded-2xl border border-white/10 bg-white/5 p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50 ${
+          className={`group rounded-2xl border border-white/10 bg-white/5 p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:cursor-not-allowed disabled:opacity-50 ${
             index === actions.length - 1 && actions.length % 2 === 1
               ? "col-span-2"
               : ""
