@@ -7,6 +7,7 @@ import type { AvatarState } from "@/components/home/hero/avatar/avatar-state";
  */
 export interface AvatarPose {
   idleTimeScale: number;
+  breathingScale: number;
 }
 
 /**

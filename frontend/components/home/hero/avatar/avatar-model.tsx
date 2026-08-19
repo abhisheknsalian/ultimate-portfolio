@@ -30,6 +30,8 @@ export default function AvatarModel() {
     if (idle) {
       idle.timeScale = pose.idleTimeScale;
     }
+
+    group.current?.scale.set(1, pose.breathingScale, 1);
   });
 
   return (
