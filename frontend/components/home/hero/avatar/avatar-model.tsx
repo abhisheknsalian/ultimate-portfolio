@@ -4,27 +4,15 @@ import { useEffect, useRef } from "react";
 import type { Group } from "three";
 import { useGLTF, useAnimations } from "@react-three/drei";
 
-import { useAvatarBridge } from "./use-avatar-bridge";
-import { AvatarState } from "./avatar-state";
+import { useAvatarEngine } from "./use-avatar-engine";
 
 const MODEL_PATH = "/avatar/models/abhishek.glb";
 const IDLE_CLIP = "IdleV4.2(maya_head)";
-
-// Provisional: a direct state -> timeScale mapping. This is the seam
-// milestone 4's PostureController takes over.
-const IDLE_TIME_SCALE: Record<AvatarState, number> = {
-  [AvatarState.IDLE]: 1,
-  [AvatarState.WAVE]: 1,
-  [AvatarState.TYPING]: 1,
-  [AvatarState.THINKING]: 1.15,
-  [AvatarState.SPEAKING]: 1.3,
-};
 
 export default function AvatarModel() {
   const group = useRef<Group>(null);
   const { scene, animations } = useGLTF(MODEL_PATH);
   const { actions } = useAnimations(animations, group);
-  const avatarState = useAvatarBridge();
 
   useEffect(() => {
     const idle = actions[IDLE_CLIP];
@@ -36,13 +24,13 @@ export default function AvatarModel() {
     };
   }, [actions]);
 
-  useEffect(() => {
+  useAvatarEngine((pose) => {
     const idle = actions[IDLE_CLIP];
 
     if (idle) {
-      idle.timeScale = IDLE_TIME_SCALE[avatarState];
+      idle.timeScale = pose.idleTimeScale;
     }
-  }, [actions, avatarState]);
+  });
 
   return (
     <group ref={group}>
