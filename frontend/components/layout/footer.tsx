@@ -13,16 +13,16 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="mt-24 border-t border-border">
+    <footer className="mt-8 border-t border-border">
       <Container>
         <div className="flex flex-col items-center justify-between gap-8 py-12 md:flex-row">
           {/* Left */}
-          <div>
-            <h3 className="text-xl font-bold">
+          <div className="text-center md:text-left">
+            <h3 className="text-xl font-bold tracking-tight">
               {siteConfig.firstName} {siteConfig.lastName}
             </h3>
 
-            <p className="mt-2 max-w-md text-sm text-muted-foreground">
+            <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground md:mx-0">
               {t.footer.description}
             </p>
           </div>

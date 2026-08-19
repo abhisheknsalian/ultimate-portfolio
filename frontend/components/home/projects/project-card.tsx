@@ -43,7 +43,8 @@ export default function ProjectCard({
             .map((tech) => (
               <Badge
                 key={tech}
-                className="bg-background/60 text-xs"
+                size="sm"
+                className="bg-background/60"
               >
                 {tech}
               </Badge>

@@ -58,9 +58,16 @@ interface CardTitleProps extends TypographyProps {
   /**
    * "default" for compact grid cards (project, skill category).
    * "lg" for content-rich record cards (experience, education).
+   * "xl" for the single featured/flagship card on a page.
    */
-  size?: "default" | "lg";
+  size?: "default" | "lg" | "xl";
 }
+
+const CARD_TITLE_SIZE = {
+  default: "text-xl",
+  lg: "text-2xl",
+  xl: "text-3xl",
+} as const;
 
 export function CardTitle({
   children,
@@ -71,7 +78,7 @@ export function CardTitle({
     <h3
       className={cn(
         "font-bold tracking-tight",
-        size === "lg" ? "text-2xl" : "text-xl",
+        CARD_TITLE_SIZE[size],
         className
       )}
     >

@@ -16,9 +16,10 @@ export default function Contact() {
       <SectionHeading
         title={t.contact.title}
         description={t.contact.description}
+        className="mx-auto text-center"
       />
 
-      <div className="mt-12 flex flex-wrap gap-4">
+      <div className="mt-12 flex flex-wrap justify-center gap-4">
         <Link href={`mailto:${siteConfig.email}`}>
           <Button>{t.contact.email}</Button>
         </Link>
