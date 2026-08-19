@@ -8,14 +8,23 @@ import type { AvatarState } from "@/components/home/hero/avatar/avatar-state";
 export interface AvatarPose {
   idleTimeScale: number;
   breathingScale: number;
+  gestureRotationZ: number;
+}
+
+export interface ActiveGesture {
+  name: string;
+  elapsed: number;
 }
 
 /**
  * Shared, mutable state controllers read from. Written to by engine
  * commands (called from the bridge), read by every controller's tick().
+ * Controllers may also clear their own consumed one-shot fields here
+ * (e.g. GestureController nulling activeGesture once it finishes).
  */
 export interface AvatarBlackboard {
   posture: AvatarState;
+  activeGesture: ActiveGesture | null;
 }
 
 export interface AvatarController {

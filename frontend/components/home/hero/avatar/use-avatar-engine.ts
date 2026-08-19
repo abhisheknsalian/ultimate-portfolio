@@ -18,7 +18,7 @@ export function useAvatarEngine(
 ): void {
   const engineRef = useRef<AvatarEngine | null>(null);
 
-  if (!engineRef.current) {
+  if (engineRef.current === null) {
     engineRef.current = createAvatarEngine();
   }
 
@@ -27,6 +27,11 @@ export function useAvatarEngine(
   useEffect(() => {
     engineRef.current?.setPosture(avatarState);
   }, [avatarState]);
+
+  // Greeting wave, fired once when the avatar first mounts.
+  useEffect(() => {
+    engineRef.current?.playGesture("wave");
+  }, []);
 
   useFrame((_, deltaTime) => {
     const pose = engineRef.current?.tick(deltaTime);

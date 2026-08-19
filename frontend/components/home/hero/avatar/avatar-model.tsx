@@ -32,6 +32,10 @@ export default function AvatarModel() {
     }
 
     group.current?.scale.set(1, pose.breathingScale, 1);
+
+    if (group.current) {
+      group.current.rotation.z = pose.gestureRotationZ;
+    }
   });
 
   return (

@@ -1,6 +1,7 @@
 import { AvatarState } from "@/components/home/hero/avatar/avatar-state";
 
 import { BreathingController } from "./controllers/breathing-controller";
+import { GestureController } from "./controllers/gesture-controller";
 import { PostureController } from "./controllers/posture-controller";
 import type {
   AvatarBlackboard,
@@ -11,6 +12,7 @@ import type {
 const DEFAULT_POSE: AvatarPose = {
   idleTimeScale: 1,
   breathingScale: 1,
+  gestureRotationZ: 0,
 };
 
 /**
@@ -23,15 +25,21 @@ const DEFAULT_POSE: AvatarPose = {
 export class AvatarEngine {
   private blackboard: AvatarBlackboard = {
     posture: AvatarState.IDLE,
+    activeGesture: null,
   };
 
   private controllers: AvatarController[] = [
     new PostureController(),
     new BreathingController(),
+    new GestureController(),
   ];
 
   setPosture(state: AvatarState): void {
     this.blackboard.posture = state;
+  }
+
+  playGesture(name: string): void {
+    this.blackboard.activeGesture = { name, elapsed: 0 };
   }
 
   tick(deltaTime: number): AvatarPose {
