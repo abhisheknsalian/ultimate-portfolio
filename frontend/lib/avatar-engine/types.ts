@@ -11,11 +11,18 @@ export interface AvatarPose {
   idleTimeScale: number;
   breathingScale: number;
   gestureRotationZ: number;
+  headYaw: number;
+  headPitch: number;
 }
 
 export interface ActiveGesture {
   name: string;
   elapsed: number;
+}
+
+export interface GazeTarget {
+  x: number;
+  y: number;
 }
 
 /**
@@ -28,6 +35,7 @@ export interface AvatarBlackboard {
   posture: AvatarState;
   activeGesture: ActiveGesture | null;
   capabilities: RigCapabilities | null;
+  gazeTarget: GazeTarget;
 }
 
 export interface AvatarController {

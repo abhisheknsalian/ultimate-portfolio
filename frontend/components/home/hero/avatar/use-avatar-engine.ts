@@ -40,7 +40,9 @@ export function useAvatarEngine(
     engineRef.current?.setCapabilities(detectRigCapabilities(root));
   }, [root]);
 
-  useFrame((_, deltaTime) => {
+  useFrame((state, deltaTime) => {
+    engineRef.current?.setGazeTarget(state.pointer.x, state.pointer.y);
+
     const pose = engineRef.current?.tick(deltaTime);
 
     if (pose) {

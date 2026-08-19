@@ -3,6 +3,7 @@ import { AvatarState } from "@/components/home/hero/avatar/avatar-state";
 import type { RigCapabilities } from "./capabilities";
 import { BlinkController } from "./controllers/blink-controller";
 import { BreathingController } from "./controllers/breathing-controller";
+import { EyeTrackingController } from "./controllers/eye-tracking-controller";
 import { GestureController } from "./controllers/gesture-controller";
 import { PostureController } from "./controllers/posture-controller";
 import type {
@@ -15,6 +16,8 @@ const DEFAULT_POSE: AvatarPose = {
   idleTimeScale: 1,
   breathingScale: 1,
   gestureRotationZ: 0,
+  headYaw: 0,
+  headPitch: 0,
 };
 
 /**
@@ -29,6 +32,7 @@ export class AvatarEngine {
     posture: AvatarState.IDLE,
     activeGesture: null,
     capabilities: null,
+    gazeTarget: { x: 0, y: 0 },
   };
 
   private controllers: AvatarController[] = [
@@ -36,6 +40,7 @@ export class AvatarEngine {
     new BreathingController(),
     new GestureController(),
     new BlinkController(),
+    new EyeTrackingController(),
   ];
 
   setPosture(state: AvatarState): void {
@@ -48,6 +53,10 @@ export class AvatarEngine {
 
   setCapabilities(capabilities: RigCapabilities): void {
     this.blackboard.capabilities = capabilities;
+  }
+
+  setGazeTarget(x: number, y: number): void {
+    this.blackboard.gazeTarget = { x, y };
   }
 
   tick(deltaTime: number): AvatarPose {
