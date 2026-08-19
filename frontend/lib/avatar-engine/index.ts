@@ -4,3 +4,5 @@ export type {
   AvatarBlackboard,
   AvatarController,
 } from "./types";
+export { detectRigCapabilities } from "./capabilities";
+export type { RigCapabilities } from "./capabilities";

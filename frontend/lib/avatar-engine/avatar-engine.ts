@@ -1,5 +1,7 @@
 import { AvatarState } from "@/components/home/hero/avatar/avatar-state";
 
+import type { RigCapabilities } from "./capabilities";
+import { BlinkController } from "./controllers/blink-controller";
 import { BreathingController } from "./controllers/breathing-controller";
 import { GestureController } from "./controllers/gesture-controller";
 import { PostureController } from "./controllers/posture-controller";
@@ -26,12 +28,14 @@ export class AvatarEngine {
   private blackboard: AvatarBlackboard = {
     posture: AvatarState.IDLE,
     activeGesture: null,
+    capabilities: null,
   };
 
   private controllers: AvatarController[] = [
     new PostureController(),
     new BreathingController(),
     new GestureController(),
+    new BlinkController(),
   ];
 
   setPosture(state: AvatarState): void {
@@ -40,6 +44,10 @@ export class AvatarEngine {
 
   playGesture(name: string): void {
     this.blackboard.activeGesture = { name, elapsed: 0 };
+  }
+
+  setCapabilities(capabilities: RigCapabilities): void {
+    this.blackboard.capabilities = capabilities;
   }
 
   tick(deltaTime: number): AvatarPose {

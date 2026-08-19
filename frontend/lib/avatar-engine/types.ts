@@ -1,5 +1,7 @@
 import type { AvatarState } from "@/components/home/hero/avatar/avatar-state";
 
+import type { RigCapabilities } from "./capabilities";
+
 /**
  * The resolved output the 3D avatar layer applies to the model each
  * tick. Grows one field at a time, only when a controller actually
@@ -25,6 +27,7 @@ export interface ActiveGesture {
 export interface AvatarBlackboard {
   posture: AvatarState;
   activeGesture: ActiveGesture | null;
+  capabilities: RigCapabilities | null;
 }
 
 export interface AvatarController {

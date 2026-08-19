@@ -24,7 +24,7 @@ export default function AvatarModel() {
     };
   }, [actions]);
 
-  useAvatarEngine((pose) => {
+  useAvatarEngine(scene, (pose) => {
     const idle = actions[IDLE_CLIP];
 
     if (idle) {
