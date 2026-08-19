@@ -8,6 +8,13 @@ import { useAvatar } from "./use-avatar";
 let speechQueue: SpeechSynthesisUtterance[] = [];
 let speaking = false;
 
+// Single source of truth for every speech parameter. Anything that
+// speaks - the welcome message included - goes through speak() below,
+// which reads only from here.
+const SPEECH_RATE = 1;
+const SPEECH_PITCH = 1;
+const SPEECH_VOLUME = 1;
+
 // The Web Speech API's SpeechSynthesisVoice exposes no gender field, so a
 // male voice can only be selected by matching known voice names shipped by
 // the major platforms. Checked in priority order - first match wins.
@@ -88,16 +95,69 @@ function getGermanVoice(
   return nonFemale ?? germanVoices[0] ?? null;
 }
 
-function getVoice(language: "en" | "de") {
-  const voices = window.speechSynthesis.getVoices();
-
+// Pure selection: given an already-loaded voice list, pick the right
+// one for the language. No I/O, no dependency on *when* it's called -
+// the single source of truth for "which voice for which language."
+function selectVoice(
+  language: "en" | "de",
+  voices: SpeechSynthesisVoice[]
+): SpeechSynthesisVoice | null {
   if (language === "de") {
     return getGermanVoice(voices);
   }
 
-  return (
-    voices.find((voice) => voice.lang.startsWith("en")) ?? null
-  );
+  return voices.find((voice) => voice.lang.startsWith("en")) ?? null;
+}
+
+// Chrome (and others) load the voice list asynchronously - immediately
+// after page load, getVoices() can return an empty array for a brief
+// window before the "voiceschanged" event fires. Any speak() call that
+// lands in that window (in practice: the welcome message, which speaks
+// almost immediately on mount, before a user has had time to interact)
+// would silently get no explicit voice and fall back to the browser's
+// own default - a *different* voice than every later call, which always
+// happens well after the list has loaded. This waits for the list to be
+// ready before any voice is selected, for every caller equally - not a
+// welcome-message special case, just making the one shared speak()
+// implementation correct regardless of when it's first called.
+let voicesReadyPromise: Promise<SpeechSynthesisVoice[]> | null = null;
+
+function ensureVoicesLoaded(): Promise<SpeechSynthesisVoice[]> {
+  if (voicesReadyPromise) return voicesReadyPromise;
+
+  voicesReadyPromise = new Promise((resolve) => {
+    const existing = window.speechSynthesis.getVoices();
+
+    if (existing.length > 0) {
+      resolve(existing);
+      return;
+    }
+
+    const handleVoicesChanged = () => {
+      window.speechSynthesis.removeEventListener(
+        "voiceschanged",
+        handleVoicesChanged
+      );
+      resolve(window.speechSynthesis.getVoices());
+    };
+
+    window.speechSynthesis.addEventListener(
+      "voiceschanged",
+      handleVoicesChanged
+    );
+
+    // Measured real-world load time was ~30ms; this is a generous
+    // fallback in case "voiceschanged" never fires on some browser.
+    setTimeout(() => {
+      window.speechSynthesis.removeEventListener(
+        "voiceschanged",
+        handleVoicesChanged
+      );
+      resolve(window.speechSynthesis.getVoices());
+    }, 1000);
+  });
+
+  return voicesReadyPromise;
 }
 
 function playNext() {
@@ -138,28 +198,30 @@ export function useSpeech() {
 
       if (!trimmed) return;
 
-      const utterance = new SpeechSynthesisUtterance(trimmed);
+      ensureVoicesLoaded().then((voices) => {
+        const utterance = new SpeechSynthesisUtterance(trimmed);
 
-      utterance.lang =
-        language === "de"
-          ? "de-DE"
-          : "en-US";
+        utterance.lang =
+          language === "de"
+            ? "de-DE"
+            : "en-US";
 
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      utterance.volume = 1;
+        utterance.rate = SPEECH_RATE;
+        utterance.pitch = SPEECH_PITCH;
+        utterance.volume = SPEECH_VOLUME;
 
-      const voice = getVoice(language);
+        const voice = selectVoice(language, voices);
 
-      if (voice) {
-        utterance.voice = voice;
-      }
+        if (voice) {
+          utterance.voice = voice;
+        }
 
-      speechQueue.push(utterance);
+        speechQueue.push(utterance);
 
-      if (!speaking) {
-        playNext();
-      }
+        if (!speaking) {
+          playNext();
+        }
+      });
     },
     []
   );
