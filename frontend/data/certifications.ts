@@ -84,4 +84,28 @@ export const certifications: Certification[] = [
       de: "IBM",
     },
   },
+
+  {
+    name: {
+      en: "Python for Everybody",
+      de: "Python for Everybody",
+    },
+
+    issuer: {
+      en: "University of Michigan",
+      de: "University of Michigan",
+    },
+  },
+
+  {
+    name: {
+      en: "Java Programming: Solving Problems with Software",
+      de: "Java Programming: Solving Problems with Software",
+    },
+
+    issuer: {
+      en: "Duke University",
+      de: "Duke University",
+    },
+  },
 ];

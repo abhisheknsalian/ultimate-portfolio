@@ -28,6 +28,8 @@ The certifications I currently hold are:
 - Google Data Analytics Professional Certificate - Google
 - Microsoft Generative AI for Data Science - Microsoft
 - IBM RAG and Agentic AI - IBM
+- Python for Everybody - University of Michigan
+- Java Programming: Solving Problems with Software - Duke University
 
 ---
 
@@ -197,6 +199,53 @@ RAG and agentic AI are directly relevant to the AI systems I build, including th
 
 ---
 
+## 8. Python for Everybody
+
+### Provider
+
+University of Michigan
+
+### Description
+
+An introductory programming course covering Python fundamentals, including variables, control structures, functions, and core data structures such as lists and dictionaries, along with using Python to work with files, web data, and databases.
+
+### Skills Gained
+
+- Python Fundamentals
+- Data Structures (Lists, Dictionaries, Tuples)
+- File Handling
+- Web Data Retrieval (APIs, JSON)
+- Basic Database Usage (SQLite)
+
+### Why I Took This Course
+
+Python is central to almost everything I build, from data engineering pipelines to machine learning models. This course strengthened my core programming fundamentals with a more structured foundation than self-directed learning alone.
+
+---
+
+## 9. Java Programming: Solving Problems with Software
+
+### Provider
+
+Duke University
+
+### Description
+
+An introductory Java programming course focused on building small, practical programs to solve real-world-style problems. It covers core Java syntax, control structures, and basic object-oriented programming concepts through hands-on exercises.
+
+### Skills Gained
+
+- Java Fundamentals
+- Object-Oriented Programming Basics
+- Problem-Solving with Code
+- Working with Text and Data in Java
+
+### Why I Took This Course
+
+Learning Java alongside Python broadened my understanding of programming paradigms and strengthened my object-oriented programming foundations, which support my broader software engineering work.
+
+---
+
 # How These Certifications Help Me
 
 These certifications have strengthened my knowledge in several key areas, including:
@@ -206,6 +255,7 @@ These certifications have strengthened my knowledge in several key areas, includ
 - Cloud Computing
 - Data Science
 - Python
+- Java
 - Software Engineering
 - AI Infrastructure
 - Model Deployment
