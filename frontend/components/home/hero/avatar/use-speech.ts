@@ -8,15 +8,64 @@ import { useAvatar } from "./use-avatar";
 let speechQueue: SpeechSynthesisUtterance[] = [];
 let speaking = false;
 
+// The Web Speech API's SpeechSynthesisVoice exposes no gender field, so a
+// male voice can only be selected by matching known voice names shipped by
+// the major platforms. Checked in priority order - first match wins.
+// "Markus" (Apple/macOS/iOS) and "Conrad" (Microsoft Edge/Windows neural
+// voices) are well-established, natural-sounding male German voices;
+// "Stefan" is an older Microsoft SAPI voice included as an extra fallback.
+const MALE_GERMAN_VOICE_NAMES = ["markus", "conrad", "stefan"];
+
+// If no known-male voice is available on this platform, avoid landing on
+// a known-female voice by name where a more neutral/unrecognized
+// alternative exists, before falling back to whatever German voice exists.
+const FEMALE_GERMAN_VOICE_NAMES = [
+  "anna",
+  "petra",
+  "helena",
+  "hedda",
+  "katja",
+  "amala",
+  "elke",
+  "klarissa",
+  "louisa",
+  "maja",
+];
+
+function getGermanVoice(
+  voices: SpeechSynthesisVoice[]
+): SpeechSynthesisVoice | null {
+  const germanVoices = voices.filter((voice) =>
+    voice.lang.startsWith("de")
+  );
+
+  for (const name of MALE_GERMAN_VOICE_NAMES) {
+    const match = germanVoices.find((voice) =>
+      voice.name.toLowerCase().includes(name)
+    );
+
+    if (match) return match;
+  }
+
+  const nonFemale = germanVoices.find(
+    (voice) =>
+      !FEMALE_GERMAN_VOICE_NAMES.some((name) =>
+        voice.name.toLowerCase().includes(name)
+      )
+  );
+
+  return nonFemale ?? germanVoices[0] ?? null;
+}
+
 function getVoice(language: "en" | "de") {
   const voices = window.speechSynthesis.getVoices();
 
+  if (language === "de") {
+    return getGermanVoice(voices);
+  }
+
   return (
-    voices.find((voice) =>
-      language === "de"
-        ? voice.lang.startsWith("de")
-        : voice.lang.startsWith("en")
-    ) ?? null
+    voices.find((voice) => voice.lang.startsWith("en")) ?? null
   );
 }
 
