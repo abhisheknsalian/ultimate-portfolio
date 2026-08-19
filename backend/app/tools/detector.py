@@ -7,7 +7,6 @@ from app.tools.actions import (
 # same keywords, same order, same triggering behavior. Only the label text
 # shown for a detected action now depends on the selected UI language.
 TOOLS = [
-    (["resume", "cv"], ActionType.VIEW_RESUME),
     (["github"], ActionType.OPEN_GITHUB),
     (["linkedin"], ActionType.OPEN_LINKEDIN),
     (["portfolio", "website"], ActionType.OPEN_PORTFOLIO),
@@ -17,7 +16,6 @@ TOOLS = [
 
 LABELS = {
     "en": {
-        ActionType.VIEW_RESUME: "View Resume",
         ActionType.OPEN_GITHUB: "Open GitHub",
         ActionType.OPEN_LINKEDIN: "Open LinkedIn",
         ActionType.OPEN_PORTFOLIO: "Open Portfolio",
@@ -25,7 +23,6 @@ LABELS = {
         ActionType.OPEN_EXPERIENCE: "View Experience",
     },
     "de": {
-        ActionType.VIEW_RESUME: "Lebenslauf ansehen",
         ActionType.OPEN_GITHUB: "GitHub öffnen",
         ActionType.OPEN_LINKEDIN: "LinkedIn öffnen",
         ActionType.OPEN_PORTFOLIO: "Portfolio öffnen",
