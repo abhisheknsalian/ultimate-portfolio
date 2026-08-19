@@ -11,14 +11,41 @@ let speaking = false;
 // The Web Speech API's SpeechSynthesisVoice exposes no gender field, so a
 // male voice can only be selected by matching known voice names shipped by
 // the major platforms. Checked in priority order - first match wins.
-// "Markus" (Apple/macOS/iOS) and "Conrad" (Microsoft Edge/Windows neural
-// voices) are well-established, natural-sounding male German voices;
-// "Stefan" is an older Microsoft SAPI voice included as an extra fallback.
-const MALE_GERMAN_VOICE_NAMES = ["markus", "conrad", "stefan"];
+//
+// "Markus" (older Apple/macOS/iOS) and "Conrad" (Microsoft Edge/Windows
+// neural voices) are well-established male German voices on platforms
+// that ship them. "Reed" and "Eddy" are the two neutral (non-character)
+// male personas in Apple's newer on-device voice set, verified present on
+// a real macOS/Chrome install via speechSynthesis.getVoices() - measured
+// median pitch ~104Hz and ~116Hz respectively (clearly male-range; typical
+// male F0 is ~85-180Hz, female ~165-255Hz), both well below "Anna"
+// (~171Hz, macOS's known female German voice). Reed is preferred over Eddy
+// specifically because Eddy is almost certainly the voice already in use
+// today (it was the first non-excluded match under the previous fallback
+// logic) - the one the "robotic/radio-like" complaint is about - so
+// promoting a genuinely different, equally neutral option is more useful
+// than re-selecting the same voice. "Stefan" (older Microsoft SAPI) and
+// "Grandpa"/"Rocko" (Apple's more overtly stylized/character male
+// personas - elderly and gravelly respectively, verified male by pitch
+// but less "professional"-sounding than Reed/Eddy) are lower-priority
+// fallbacks.
+const MALE_GERMAN_VOICE_NAMES = [
+  "markus",
+  "conrad",
+  "reed",
+  "eddy",
+  "stefan",
+  "grandpa",
+  "rocko",
+];
 
 // If no known-male voice is available on this platform, avoid landing on
 // a known-female voice by name where a more neutral/unrecognized
 // alternative exists, before falling back to whatever German voice exists.
+// "Flo", "Sandy", "Shelley", and "Grandma" were confirmed female personas
+// in the same real-voice inspection (Flo/Sandy measured clearly in the
+// female pitch range; Grandma is a deliberately low/raspy elderly-female
+// character voice, paired by design with the male "Grandpa").
 const FEMALE_GERMAN_VOICE_NAMES = [
   "anna",
   "petra",
@@ -30,6 +57,10 @@ const FEMALE_GERMAN_VOICE_NAMES = [
   "klarissa",
   "louisa",
   "maja",
+  "flo",
+  "sandy",
+  "shelley",
+  "grandma",
 ];
 
 function getGermanVoice(
