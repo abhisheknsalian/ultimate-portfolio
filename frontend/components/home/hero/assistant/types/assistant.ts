@@ -15,6 +15,7 @@ export type AssistantActionType =
   | "OPEN_EMAIL"
   | "OPEN_PROJECTS"
   | "OPEN_FEATURED_PROJECT"
+  | "OPEN_PROJECT"
   | "OPEN_EXPERIENCE"
   | "OPEN_EDUCATION"
   | "OPEN_CERTIFICATIONS"
@@ -30,6 +31,10 @@ export interface AssistantAction {
   target?: string;
 
   url?: string;
+
+  // Backend-supplied destination for OPEN_PROJECT (e.g. the project's
+  // GitHub repository URL).
+  payload?: string;
 }
 
 export interface AssistantMessage {
@@ -42,6 +47,11 @@ export interface AssistantMessage {
   createdAt: Date;
 
   action?: AssistantAction;
+
+  // Marks the synthetic greeting inserted on mount/language-change - it is
+  // never spoken automatically (only an explicit OFF -> ON audio toggle
+  // speaks it), unlike real assistant responses.
+  isWelcome?: boolean;
 }
 
 export interface AssistantState {

@@ -1,0 +1,540 @@
+[
+  {
+    "id": "project-cyber-ai-platform",
+    "category": "project",
+    "title": "AI-Powered Cyber Threat Intelligence Platform",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "End-to-end Retrieval-Augmented Generation (RAG) platform that analyzes cybersecurity threats by combining semantic search with local large language models to generate contextual threat intelligence reports and mitigation recommendations."
+      },
+      {
+        "title": "Challenge",
+        "content": "Design a scalable AI system capable of retrieving accurate cybersecurity knowledge from multiple threat intelligence sources while minimizing hallucinations and generating context-aware threat analysis."
+      },
+      {
+        "title": "Solution",
+        "content": "Built a modular RAG pipeline using LangChain for document ingestion, Hugging Face embeddings, ChromaDB for semantic retrieval, Ollama-hosted Llama 3.2 for local inference, and a FastAPI backend for AI-powered threat intelligence generation."
+      },
+      {
+        "title": "Impact",
+        "content": "Built a production-style AI architecture demonstrating vector search, retrieval-augmented generation, local LLM inference, and REST API integration for contextual cybersecurity analysis."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "FastAPI",
+      "LangChain",
+      "ChromaDB",
+      "Ollama",
+      "Llama 3.2",
+      "Hugging Face",
+      "Sentence Transformers",
+      "Vector Search",
+      "RAG"
+    ],
+    "metadata": {
+      "featured": true,
+      "category": "Generative AI",
+      "github": "https://github.com/abhisheknsalian/cyber-ai-platform",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "project-modern-cloud-data-engineering-pipeline",
+    "category": "project",
+    "title": "Modern Cloud Data Engineering Pipeline",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "Production-ready cloud data pipeline built using AWS, Terraform, Docker, and Python following the Medallion Architecture."
+      },
+      {
+        "title": "Challenge",
+        "content": "Design a scalable end-to-end data engineering pipeline capable of ingesting, validating, transforming, and serving analytics-ready datasets."
+      },
+      {
+        "title": "Solution",
+        "content": "Implemented a Bronze-Silver-Gold architecture with modular ETL workflows, infrastructure as code using Terraform, Docker-based execution, and automated validation."
+      },
+      {
+        "title": "Impact",
+        "content": "Demonstrates production-ready data engineering practices including reproducible infrastructure, scalable processing, and analytics-ready outputs."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "AWS",
+      "Terraform",
+      "Docker",
+      "Pandas",
+      "Parquet",
+      "GitHub Actions"
+    ],
+    "metadata": {
+      "featured": true,
+      "category": "Data Engineering",
+      "github": "https://github.com/abhisheknsalian/modern-cloud-data-engineering-pipeline",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "project-function-level-vulnerability-detection",
+    "category": "project",
+    "title": "Function-Level Software Vulnerability Detection",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "End-to-end software vulnerability detection pipeline that reconstructs function-level datasets from real-world GitHub repositories and compares traditional machine learning models with a fine-tuned CodeBERT transformer."
+      },
+      {
+        "title": "Challenge",
+        "content": "Develop an automated vulnerability detection system capable of extracting vulnerable and patched C/C++ functions from real-world repositories while preventing information leakage."
+      },
+      {
+        "title": "Solution",
+        "content": "Built a complete dataset extraction pipeline with repository mining, patch analysis, function extraction, duplicate removal, and CVE-aware evaluation. Compared TF-IDF baselines with a fine-tuned Microsoft CodeBERT model."
+      },
+      {
+        "title": "Impact",
+        "content": "Generated a dataset of 6,334 function-level samples from 3,805 processed CVEs. CodeBERT achieved the highest Recall (98.38%) and F1-score (63.24%)."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "PyTorch",
+      "CodeBERT",
+      "Hugging Face",
+      "Scikit-learn",
+      "TF-IDF",
+      "Linear SVM",
+      "GridSearchCV",
+      "Pandas",
+      "NumPy"
+    ],
+    "metadata": {
+      "featured": true,
+      "category": "Machine Learning",
+      "github": "https://github.com/abhisheknsalian/function-level-vulnerability-detection",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "project-ecommerce-demand-forecasting",
+    "category": "project",
+    "title": "E-Commerce Demand Forecasting",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "Machine learning project that forecasts weekly product demand from over one million retail transactions using XGBoost and advanced feature engineering."
+      },
+      {
+        "title": "Challenge",
+        "content": "Forecast weekly demand accurately using historical retail transaction data while capturing seasonality and temporal trends."
+      },
+      {
+        "title": "Solution",
+        "content": "Built an end-to-end forecasting pipeline with extensive data cleaning, lag features, rolling averages, and an XGBoost Regressor deployed as a Streamlit application."
+      },
+      {
+        "title": "Impact",
+        "content": "Reduced forecasting error to 20% MAPE on real-world retail data while accurately capturing seasonal demand trends."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "Pandas",
+      "XGBoost",
+      "Scikit-learn",
+      "Streamlit",
+      "Matplotlib"
+    ],
+    "metadata": {
+      "featured": true,
+      "category": "Machine Learning",
+      "github": "https://github.com/abhisheknsalian/ecommerce-demand-forecasting",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "project-tweet-sentiment-analyzer",
+    "category": "project",
+    "title": "Tweet Sentiment Analyzer",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "Sentiment analysis application comparing a rule-based TextBlob baseline with a Twitter-trained RoBERTa transformer model."
+      },
+      {
+        "title": "Challenge",
+        "content": "Compare traditional sentiment analysis techniques with transformer-based NLP models."
+      },
+      {
+        "title": "Solution",
+        "content": "Built a Streamlit application integrating TextBlob and a pretrained Twitter RoBERTa model for real-time tweet sentiment classification."
+      },
+      {
+        "title": "Impact",
+        "content": "Demonstrated the benefits of transformer-based NLP for social media sentiment analysis."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "Transformers",
+      "RoBERTa",
+      "TextBlob",
+      "Scikit-learn",
+      "Streamlit"
+    ],
+    "metadata": {
+      "featured": false,
+      "category": "Natural Language Processing",
+      "github": "https://github.com/abhisheknsalian/tweet-sentiment-analyzer",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "project-customer-behaviour-analysis",
+    "category": "project",
+    "title": "Customer Behaviour Analysis",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "Exploratory data analysis and machine learning project for understanding customer purchasing behaviour and generating business insights."
+      },
+      {
+        "title": "Challenge",
+        "content": "Identify purchasing patterns and customer segments."
+      },
+      {
+        "title": "Solution",
+        "content": "Performed EDA, visualization, feature engineering, and predictive modelling using Python."
+      },
+      {
+        "title": "Impact",
+        "content": "Generated actionable business insights from customer transaction data."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "Pandas",
+      "Scikit-learn",
+      "Matplotlib",
+      "Plotly"
+    ],
+    "metadata": {
+      "featured": false,
+      "category": "Data Analytics",
+      "github": "https://github.com/abhisheknsalian/customer_behaviour_analysis",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "project-climate-risk-prediction",
+    "category": "project",
+    "title": "Climate Risk Prediction",
+    "sections": [
+      {
+        "title": "Description",
+        "content": "Predictive machine learning system for assessing climate-related risks using historical environmental datasets."
+      },
+      {
+        "title": "Challenge",
+        "content": "Predict environmental risk using historical climate data."
+      },
+      {
+        "title": "Solution",
+        "content": "Applied feature engineering, exploratory analysis, and ensemble machine learning models."
+      },
+      {
+        "title": "Impact",
+        "content": "Built an interpretable predictive model for climate risk assessment."
+      }
+    ],
+    "technologies": [
+      "Python",
+      "XGBoost",
+      "Pandas",
+      "Plotly"
+    ],
+    "metadata": {
+      "featured": false,
+      "category": "Machine Learning",
+      "github": "https://github.com/abhisheknsalian/climate_risk_pred",
+      "year": "2026",
+      "status": "Completed"
+    }
+  },
+  {
+    "id": "experience-0",
+    "category": "experience",
+    "title": "Associate Software Engineer - Revature",
+    "sections": [
+      {
+        "title": "Role",
+        "content": "Associate Software Engineer"
+      },
+      {
+        "title": "Company",
+        "content": "Revature"
+      },
+      {
+        "title": "Location",
+        "content": "India"
+      },
+      {
+        "title": "Duration",
+        "content": "Jul 2023 - Jun 2025"
+      },
+      {
+        "title": "Responsibilities",
+        "content": "Developed SQL-driven backend applications using Java, Spring Boot, and relational databases.\nDesigned and optimized SQL queries for efficient data retrieval, transformation, and reporting.\nBuilt backend data processing services supporting analytics and business workflows.\nCollaborated with cross-functional teams to deliver production-ready enterprise applications."
+      }
+    ],
+    "technologies": [],
+    "metadata": {
+      "company": "Revature",
+      "role": "Associate Software Engineer",
+      "location": "India"
+    }
+  },
+  {
+    "id": "education-0",
+    "category": "education",
+    "title": "University of Europe for Applied Sciences",
+    "sections": [
+      {
+        "title": "Degree",
+        "content": "M.Sc. Data Science"
+      },
+      {
+        "title": "Institution",
+        "content": "University of Europe for Applied Sciences"
+      },
+      {
+        "title": "Location",
+        "content": "Berlin, Germany"
+      },
+      {
+        "title": "Duration",
+        "content": "2025 - 2027"
+      }
+    ],
+    "technologies": [],
+    "metadata": {}
+  },
+  {
+    "id": "education-1",
+    "category": "education",
+    "title": "Sahyadri College of Engineering and Management",
+    "sections": [
+      {
+        "title": "Degree",
+        "content": "Bachelor of Engineering in Computer Science"
+      },
+      {
+        "title": "Institution",
+        "content": "Sahyadri College of Engineering and Management"
+      },
+      {
+        "title": "Location",
+        "content": "Mangalore, India"
+      },
+      {
+        "title": "Duration",
+        "content": "2019 - 2023"
+      }
+    ],
+    "technologies": [],
+    "metadata": {}
+  },
+  {
+    "id": "skills-0",
+    "category": "skills",
+    "title": "Languages",
+    "sections": [
+      {
+        "title": "Skills",
+        "content": "Python, Java, TypeScript, Go, SQL"
+      }
+    ],
+    "technologies": [
+      "Python",
+      "Java",
+      "TypeScript",
+      "Go",
+      "SQL"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "skills-1",
+    "category": "skills",
+    "title": "Machine Learning",
+    "sections": [
+      {
+        "title": "Skills",
+        "content": "Scikit-learn, PyTorch, TensorFlow, XGBoost, Pandas, NumPy"
+      }
+    ],
+    "technologies": [
+      "Scikit-learn",
+      "PyTorch",
+      "TensorFlow",
+      "XGBoost",
+      "Pandas",
+      "NumPy"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "skills-2",
+    "category": "skills",
+    "title": "Generative AI",
+    "sections": [
+      {
+        "title": "Skills",
+        "content": "LangChain, RAG, ChromaDB, Ollama, Llama 3.2, Hugging Face"
+      }
+    ],
+    "technologies": [
+      "LangChain",
+      "RAG",
+      "ChromaDB",
+      "Ollama",
+      "Llama 3.2",
+      "Hugging Face"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "skills-3",
+    "category": "skills",
+    "title": "Data Engineering",
+    "sections": [
+      {
+        "title": "Skills",
+        "content": "AWS, Terraform, Docker, Parquet, ETL, GitHub Actions"
+      }
+    ],
+    "technologies": [
+      "AWS",
+      "Terraform",
+      "Docker",
+      "Parquet",
+      "ETL",
+      "GitHub Actions"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "skills-4",
+    "category": "skills",
+    "title": "Databases",
+    "sections": [
+      {
+        "title": "Skills",
+        "content": "PostgreSQL, MySQL, Redis"
+      }
+    ],
+    "technologies": [
+      "PostgreSQL",
+      "MySQL",
+      "Redis"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "skills-5",
+    "category": "skills",
+    "title": "Developer Tools",
+    "sections": [
+      {
+        "title": "Skills",
+        "content": "Git, Linux, VS Code, Jupyter, Docker"
+      }
+    ],
+    "technologies": [
+      "Git",
+      "Linux",
+      "VS Code",
+      "Jupyter",
+      "Docker"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "certification-0",
+    "category": "certification",
+    "title": "Machine Learning",
+    "sections": [
+      {
+        "title": "Issuer",
+        "content": "DeepLearning.AI (Andrew Ng)"
+      }
+    ],
+    "technologies": [],
+    "metadata": {}
+  },
+  {
+    "id": "certification-1",
+    "category": "certification",
+    "title": "NVIDIA AI Infrastructure & Operations Fundamentals",
+    "sections": [
+      {
+        "title": "Issuer",
+        "content": "NVIDIA"
+      }
+    ],
+    "technologies": [],
+    "metadata": {}
+  },
+  {
+    "id": "certification-2",
+    "category": "certification",
+    "title": "AWS Cloud Technical Essentials",
+    "sections": [
+      {
+        "title": "Issuer",
+        "content": "Amazon Web Services"
+      }
+    ],
+    "technologies": [],
+    "metadata": {}
+  },
+  {
+    "id": "about",
+    "category": "about",
+    "title": "About Abhishek",
+    "sections": [
+      {
+        "title": "Name",
+        "content": "Abhishek Nagesh Salian"
+      },
+      {
+        "title": "Role",
+        "content": "Machine Learning Engineer"
+      },
+      {
+        "title": "Headline",
+        "content": "Building intelligent AI systems, scalable cloud data platforms, and production-ready machine learning solutions."
+      },
+      {
+        "title": "Location",
+        "content": "Berlin, Germany"
+      },
+      {
+        "title": "Availability",
+        "content": "Available for Working Student Opportunities"
+      }
+    ],
+    "technologies": [],
+    "metadata": {}
+  }
+]

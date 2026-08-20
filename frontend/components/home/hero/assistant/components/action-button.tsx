@@ -91,6 +91,20 @@ export default function ActionButton({ action }: Props) {
         </button>
       );
 
+    case "OPEN_PROJECT":
+      return (
+        <Link
+          href={action.payload ?? "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={BUTTON_CLASS}
+        >
+          <FolderGit2 size={16} />
+          <span>{action.label}</span>
+          <ExternalLink size={14} />
+        </Link>
+      );
+
     case "OPEN_EXPERIENCE":
       return (
         <button

@@ -1,41 +1,65 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# =========================
+# Environment
+# =========================
+.env
+.env.*
+!.env.example
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
+# =========================
+# Secrets / credentials
+# =========================
 *.pem
+credentials
+*.key
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# =========================
+# Python
+# =========================
+.venv/
+venv/
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
 
-# env files (can opt-in for committing if needed)
-.env*
+# =========================
+# Chroma / Vector DB
+# =========================
+backend/app/vectordb/chroma/
+backend/app/vectordb/**/*.sqlite3
 
-# vercel
+# =========================
+# Node
+# =========================
+node_modules/
+frontend/node_modules/
+
+# =========================
+# Next.js
+# =========================
+.next/
+frontend/.next/
+out/
+*.tsbuildinfo
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# AI tooling (local-only)
+# =========================
+.claude/
+
+# =========================
+# macOS
+# =========================
+.DS_Store
+
+# =========================
+# Logs
+# =========================
+*.log
