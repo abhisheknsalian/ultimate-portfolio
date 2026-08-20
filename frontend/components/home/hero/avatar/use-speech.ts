@@ -9,6 +9,23 @@ import { useAvatar } from "./use-avatar";
 let speechQueue: SpeechSynthesisUtterance[] = [];
 let speaking = false;
 
+// Bumped on every stop(). An utterance's onstart/onend/onerror callbacks
+// close over the token that was current when they were registered - if a
+// stop() has bumped it since, those callbacks know they're stale (e.g. a
+// cancel()'d utterance's onend/onerror can still fire asynchronously) and
+// no-op instead of corrupting state a newer stop()/speak() already set up.
+let speechToken = 0;
+
+// The most recently started utterance's text/language. Cleared once it
+// finishes playing all the way through (see playNext's empty-queue
+// branch), but deliberately left untouched by stop() - that's what lets
+// an OFF -> ON toggle mid-speech resume the same response. The welcome
+// greeting is never recorded here (speak() is called with
+// trackAsResumable: false for it), so it can never be "resumed" by a
+// toggle - see AudioToggle.
+let interruptedText: string | null = null;
+let interruptedLanguage: "en" | "de" | null = null;
+
 // Single source of truth for every speech parameter. Anything that
 // speaks - the welcome message included - goes through speak() below,
 // which reads only from here.
@@ -110,6 +127,129 @@ function selectVoice(
   return voices.find((voice) => voice.lang.startsWith("en")) ?? null;
 }
 
+// Fixed set of English technical terms that may appear inside an
+// otherwise-German response (tools, frameworks, acronyms, project stack
+// names). A German voice reading these as if they were German words is
+// what produces the reported mangled/"stam stam"-style distortion, since
+// they aren't real German words. This is deliberately a fixed list, not
+// heuristic "looks-English" detection - see splitByTechnicalTerms below,
+// which is the only place this is used.
+const ENGLISH_TECHNICAL_TERMS = [
+  "Artificial Intelligence",
+  "Machine Learning",
+  "Data Engineering",
+  "Backend Development",
+  "Hugging Face",
+  "Spring WebFlux",
+  "Spring Boot",
+  "REST APIs",
+  "FastAPI",
+  "LangChain",
+  "ChromaDB",
+  "XGBoost",
+  "PostgreSQL",
+  "TypeScript",
+  "Next.js",
+  "Python",
+  "Docker",
+  "GitHub",
+  "Redis",
+  "React",
+  "Java",
+  "SQL",
+  "AWS",
+];
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Matches a multi-word term's literal spaces against any whitespace, not
+// just U+0020 - the LLM's German output sometimes renders the space in a
+// two-word term (e.g. "Spring Boot") as a narrow no-break space (U+202F)
+// or similar typographic variant, which a plain literal space would miss
+// entirely and leave the whole term stuck in the German segment.
+function buildTermPattern(term: string): string {
+  return term.split(" ").map(escapeRegExp).join("\\s+");
+}
+
+// Sorted longest-first so a multi-word term (e.g. "Spring WebFlux") is
+// preferred over any shorter overlapping alternative when both could
+// otherwise match at the same position.
+const ENGLISH_TECHNICAL_TERM_PATTERN = new RegExp(
+  `\\b(${[...ENGLISH_TECHNICAL_TERMS]
+    .sort((a, b) => b.length - a.length)
+    .map(buildTermPattern)
+    .join("|")})\\b`
+);
+
+interface SpeechSegment {
+  text: string;
+  language: "en" | "de";
+}
+
+// The LLM wraps technical terms in markdown bold ("**Java**"), so the
+// German text split() leaves behind between two adjacent terms is often
+// just the leftover "**" markers plus whatever real separator sat between
+// them (e.g. "**Java**, **SQL**" leaves "**, **"). Those asterisks carry
+// no spoken content and are what reaches speechSynthesis.speak() as a
+// meaningless fragment (reported as a "stam stam"-style noise) - they're
+// stripped from German segments only, since English segments are always
+// the exact matched term text and never contain them. This is scoped to
+// exactly the punctuation the term-splitting itself produces, not a
+// general markdown-stripping pass over the response.
+function stripMarkdownAsterisks(text: string): string {
+  return text.replace(/\*+/g, "");
+}
+
+// Splits German response text into ordered German/English segments so
+// each run can be spoken with its own voice while preserving word order,
+// punctuation, numbers, and URLs exactly as written (anything not an
+// exact technical-term match is left untouched inside its surrounding
+// German segment, aside from the asterisk strip above). Plain German text
+// with no matches comes back as a single "de" segment - identical in
+// effect to the previous single-utterance behavior, so ordinary responses
+// are unaffected. A German segment left empty (or whitespace-only) once
+// its asterisks are removed - e.g. a run that was nothing but "**" -
+// carries nothing to speak and is dropped rather than queued as its own
+// utterance; if that merges two same-language runs back together (their
+// only separator having been asterisk-only), they're combined into one
+// segment instead of leaving a gap.
+function splitByTechnicalTerms(text: string): SpeechSegment[] {
+  const rawParts = text.split(ENGLISH_TECHNICAL_TERM_PATTERN);
+  const segments: SpeechSegment[] = [];
+
+  rawParts.forEach((part, index) => {
+    // The regex has exactly one capture group, so split() alternates
+    // [non-match, match, non-match, match, ...] - odd indices are always
+    // the captured English terms.
+    const language: "en" | "de" = index % 2 === 1 ? "en" : "de";
+    const cleaned = language === "de" ? stripMarkdownAsterisks(part) : part;
+
+    if (!cleaned.trim()) return;
+
+    const previous = segments[segments.length - 1];
+
+    if (previous && previous.language === language) {
+      // Two same-language runs only end up adjacent here because
+      // whatever separated them was dropped for being asterisk/
+      // whitespace-only (e.g. "**Java** **Spring Boot**" with nothing
+      // but a markdown-wrapped space between them) - without this, they
+      // would otherwise be joined with no separator at all.
+      const needsSpace =
+        previous.text.length > 0 &&
+        !/\s$/.test(previous.text) &&
+        !/^\s/.test(cleaned);
+
+      previous.text += (needsSpace ? " " : "") + cleaned;
+    } else {
+      segments.push({ text: cleaned, language });
+    }
+  });
+
+  return segments;
+}
+
 // Chrome (and others) load the voice list asynchronously - immediately
 // after page load, getVoices() can return an empty array for a brief
 // window before the "voiceschanged" event fires. Any speak() call that
@@ -161,9 +301,44 @@ function ensureVoicesLoaded(): Promise<SpeechSynthesisVoice[]> {
   return voicesReadyPromise;
 }
 
-function playNext() {
+// Builds one utterance with the shared speech parameters and the correct
+// voice for its language - the single place that does this, reused for
+// both a plain single-language utterance and each segment of a
+// German-with-embedded-English response.
+function buildUtterance(
+  text: string,
+  language: "en" | "de",
+  voices: SpeechSynthesisVoice[]
+): SpeechSynthesisUtterance {
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  utterance.lang = language === "de" ? "de-DE" : "en-US";
+  utterance.rate = SPEECH_RATE;
+  utterance.pitch = SPEECH_PITCH;
+  utterance.volume = SPEECH_VOLUME;
+
+  const voice = selectVoice(language, voices);
+
+  if (voice) {
+    utterance.voice = voice;
+  }
+
+  return utterance;
+}
+
+function playNext(token: number) {
+  // A stale callback from an utterance stop() already cancelled - ignore
+  // it instead of undoing whatever the newer stop()/speak() set up.
+  if (token !== speechToken) return;
+
   if (speechQueue.length === 0) {
     speaking = false;
+
+    // Nothing left to play - whatever was last speaking ran to
+    // completion on its own, so there's nothing left to resume.
+    interruptedText = null;
+    interruptedLanguage = null;
+
     useAvatar.getState().setState(AvatarState.IDLE);
     return;
   }
@@ -173,25 +348,34 @@ function playNext() {
   const utterance = speechQueue.shift()!;
 
   utterance.onstart = () => {
+    if (token !== speechToken) return;
     useAvatar.getState().setState(AvatarState.SPEAKING);
   };
 
   utterance.onend = () => {
-    playNext();
+    playNext(token);
   };
 
   utterance.onerror = () => {
-    playNext();
+    playNext(token);
   };
 
   window.speechSynthesis.speak(utterance);
+}
+
+interface SpeakOptions {
+  // Whether this utterance can be replayed by a later OFF -> ON toggle if
+  // interrupted mid-speech. True for real assistant responses; false for
+  // the welcome greeting, which must never be "resumed" this way.
+  trackAsResumable?: boolean;
 }
 
 export function useSpeech() {
   const speak = useCallback(
     (
       text: string,
-      language: "en" | "de"
+      language: "en" | "de",
+      options?: SpeakOptions
     ) => {
       if (typeof window === "undefined") return;
 
@@ -205,28 +389,43 @@ export function useSpeech() {
       // just how speak() itself behaves while the preference is off.
       if (!useAudioPreference.getState().enabled) return;
 
+      const trackAsResumable = options?.trackAsResumable ?? true;
+
       ensureVoicesLoaded().then((voices) => {
-        const utterance = new SpeechSynthesisUtterance(trimmed);
+        // Re-check: voice loading is async, so the preference may have
+        // been toggled off while this was in flight (e.g. rapid
+        // OFF -> ON -> OFF clicks). Without this, a stale call can still
+        // queue and play speech after the user turned audio back off.
+        if (!useAudioPreference.getState().enabled) return;
 
-        utterance.lang =
+        // English is unaffected: a German response may contain embedded
+        // English technical terms that need the English voice, but an
+        // English response never needs to be split - it's already one
+        // utterance in the right voice, exactly as before this change.
+        const segments: SpeechSegment[] =
           language === "de"
-            ? "de-DE"
-            : "en-US";
+            ? splitByTechnicalTerms(trimmed)
+            : [{ text: trimmed, language }];
 
-        utterance.rate = SPEECH_RATE;
-        utterance.pitch = SPEECH_PITCH;
-        utterance.volume = SPEECH_VOLUME;
+        const utterances = segments.map((segment) =>
+          buildUtterance(segment.text, segment.language, voices)
+        );
 
-        const voice = selectVoice(language, voices);
+        if (utterances.length === 0) return;
 
-        if (voice) {
-          utterance.voice = voice;
+        if (trackAsResumable) {
+          // The *original* full text/language is what's tracked, not the
+          // individual segments - resuming re-runs the same split from
+          // the start, which is what makes this one resumable response
+          // instead of several unrelated ones.
+          interruptedText = trimmed;
+          interruptedLanguage = language;
         }
 
-        speechQueue.push(utterance);
+        speechQueue.push(...utterances);
 
         if (!speaking) {
-          playNext();
+          playNext(speechToken);
         }
       });
     },
@@ -238,6 +437,10 @@ export function useSpeech() {
 
     speechQueue = [];
     speaking = false;
+    speechToken += 1;
+
+    // interruptedText/interruptedLanguage are deliberately left as-is -
+    // that's what a subsequent OFF -> ON toggle replays.
 
     window.speechSynthesis.cancel();
 
@@ -246,8 +449,26 @@ export function useSpeech() {
       .setState(AvatarState.IDLE);
   }, []);
 
+  // What a later OFF -> ON toggle should resume, if anything. Null once
+  // the last-spoken response finished on its own (nothing to resume) or
+  // if nothing resumable has been spoken yet.
+  const getInterrupted = useCallback((): {
+    text: string;
+    language: "en" | "de";
+  } | null => {
+    if (interruptedText === null || interruptedLanguage === null) {
+      return null;
+    }
+
+    return {
+      text: interruptedText,
+      language: interruptedLanguage,
+    };
+  }, []);
+
   return {
     speak,
     stop,
+    getInterrupted,
   };
 }
